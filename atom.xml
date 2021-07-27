@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://come7true.github.io</id>
     <title>cometrue的博客</title>
-    <updated>2021-07-27T13:31:30.609Z</updated>
+    <updated>2021-07-27T15:13:42.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://come7true.github.io"/>
     <link rel="self" href="https://come7true.github.io/atom.xml"/>
@@ -11,35 +11,29 @@
     <icon>https://come7true.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, cometrue的博客</rights>
     <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://come7true.github.io/post/hello-gridea/</id>
-        <link href="https://come7true.github.io/post/hello-gridea/">
+        <title type="html"><![CDATA[Kafka消息丢失和重复消费-小记]]></title>
+        <id>https://come7true.github.io/post/kafka-questions/</id>
+        <link href="https://come7true.github.io/post/kafka-questions/">
         </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+        <updated>2021-07-27T15:12:40.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="一-消息丢失">一、消息丢失</h3>
+<p>1、生产者丢失消息</p>
+<p>原因：生产者消息发送到broker的过程中由于网络原因或其它异常丢失</p>
+<p>解决方案：ack机制，设置acks</p>
+<p>acks=0，消息发送后不管是否到达broker，这种情况最容易产生消息丢失，通常在大流量日志记录场景下使用</p>
+<p>acks=1，消息发送后只要leader分区写入完成即认为完成，此时如果follower还未同步完成leader就挂掉，重新推选leader后会发生消息丢失</p>
+<p>acks=-1/all，消息发送后必须等到所有分区都写入完成才认为发送完成，这样只要有一个分区存活就能保证数据不丢失，但是效率最低，一般在金融应用领域使用</p>
+<p>2、消费者丢失消息</p>
+<p>原因：kafka配置自动提交offset值，消费者还未消费完成就挂掉，rebalance之后从新的offset开始消费，导致消息丢失</p>
+<p>解决方案：配置kafka由手动提交offset</p>
+<h3 id="二-重复消费">二、重复消费</h3>
+<p>1、生产者重复生产消息</p>
+<p>原因：生产者消息发送后broker收到消息，但是生产者未收到broker的响应，触发重试机制导致消息重复</p>
+<p>解决方案：配置enable.idempotence=true开启broker接收消息的幂等性</p>
+<p>原理：在初始化生产者时分配一个唯一的pid，每次提交都会递增一个sequence number（从0开始），发送消息时会携带这两个信息，broker记录值并在每次收到消息时比对，如果相同则拒绝接收</p>
+<p>2、消费者重复消费</p>
+<p>原因：消费者消费完成后手动提交offset，此时因为异常未能提交成功，之后又从原来的offset开始消费</p>
+<p>解决方案：核心思想还是保证幂等性。通过其它中间价配合解决，比如在消费开始之前先将分区和offset值作为唯一key写redis（最好设置过期时间），消费完成并提交offset后将key删除。这样万一消费完没有成功提交offset，再次消费前检查是否存在key，若存在则不消费并删除key进入下一次消费重复过程</p>
 ]]></content>
     </entry>
 </feed>

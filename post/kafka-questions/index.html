@@ -2,24 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 | cometrue的博客</title>
+<title>Kafka消息丢失和重复消费-小记 | cometrue的博客</title>
 <link rel="shortcut icon" href="https://come7true.github.io/favicon.ico?v=1627398818709">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://come7true.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于 | cometrue的博客 - Atom Feed" href="https://come7true.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Kafka消息丢失和重复消费-小记 | cometrue的博客 - Atom Feed" href="https://come7true.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="
-欢迎来到我的小站呀，很高兴遇见你！🤝
-
-🏠 关于本站
-👨‍💻 博主是谁
-⛹ 兴趣爱好
-📬 联系我呀
-..." />
-    <meta name="keywords" content="" />
+    <meta name="description" content="一、消息丢失
+1、生产者丢失消息
+原因：生产者消息发送到broker的过程中由于网络原因或其它异常丢失
+解决方案：ack机制，设置acks
+acks=0，消息发送后不管是否到达broker，这种情况最容易产生消息丢失，通常在大流量日志记录场..." />
+    <meta name="keywords" content="Gridea" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
@@ -81,37 +78,54 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              关于
+              Kafka消息丢失和重复消费-小记
             </h2>
             <div class="post-info">
               <span>
-                2019-01-25
+                2021-07-27
               </span>
               <span>
-                1 min read
+                3 min read
               </span>
+              
+                <a href="https://come7true.github.io/tag/R6NEPg0sG/" class="post-tag">
+                  # Gridea
+                </a>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+                <h3 id="一-消息丢失">一、消息丢失</h3>
+<p>1、生产者丢失消息</p>
+<p>原因：生产者消息发送到broker的过程中由于网络原因或其它异常丢失</p>
+<p>解决方案：ack机制，设置acks</p>
+<p>acks=0，消息发送后不管是否到达broker，这种情况最容易产生消息丢失，通常在大流量日志记录场景下使用</p>
+<p>acks=1，消息发送后只要leader分区写入完成即认为完成，此时如果follower还未同步完成leader就挂掉，重新推选leader后会发生消息丢失</p>
+<p>acks=-1/all，消息发送后必须等到所有分区都写入完成才认为发送完成，这样只要有一个分区存活就能保证数据不丢失，但是效率最低，一般在金融应用领域使用</p>
+<p>2、消费者丢失消息</p>
+<p>原因：kafka配置自动提交offset值，消费者还未消费完成就挂掉，rebalance之后从新的offset开始消费，导致消息丢失</p>
+<p>解决方案：配置kafka由手动提交offset</p>
+<h3 id="二-重复消费">二、重复消费</h3>
+<p>1、生产者重复生产消息</p>
+<p>原因：生产者消息发送后broker收到消息，但是生产者未收到broker的响应，触发重试机制导致消息重复</p>
+<p>解决方案：配置enable.idempotence=true开启broker接收消息的幂等性</p>
+<p>原理：在初始化生产者时分配一个唯一的pid，每次提交都会递增一个sequence number（从0开始），发送消息时会携带这两个信息，broker记录值并在每次收到消息时比对，如果相同则拒绝接收</p>
+<p>2、消费者重复消费</p>
+<p>原因：消费者消费完成后手动提交offset，此时因为异常未能提交成功，之后又从原来的offset开始消费</p>
+<p>解决方案：核心思想还是保证幂等性。通过其它中间价配合解决，比如在消费开始之前先将分区和offset值作为唯一key写redis（最好设置过期时间），消费完成并提交offset后将key删除。这样万一消费完没有成功提交offset，再次消费前检查是否存在key，若存在则不消费并删除key进入下一次消费重复过程</p>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80">📬 联系我呀</a></li>
+<li>
+<ul>
+<li><a href="#%E4%B8%80-%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1">一、消息丢失</a></li>
+<li><a href="#%E4%BA%8C-%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9">二、重复消费</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
