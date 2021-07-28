@@ -6,7 +6,7 @@
 
 <title>关于 | cometrue的博客</title>
 
-<link rel="shortcut icon" href="https://come7true.github.io/favicon.ico?v=1627447109646">
+<link rel="shortcut icon" href="https://come7true.github.io/favicon.ico?v=1627456712626">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://come7true.github.io/styles/main.css">
@@ -85,7 +85,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1627447109646"
+            <form id="gridea-search-form" style="position: relative" data-update="1627456712626"
                 action="/search/">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
@@ -132,8 +132,61 @@
         
 
         
+            <span id="/post/about/" class="leancloud_visitors" data-flag-title="关于">
+                <em class="post-meta-item-text">阅读量 </em>
+                <i class="leancloud-visitors-count">0</i>
+            </span>
+        
+
+        <!--载入js，在</body>之前插入即可-->
+        <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+        <!--Leancloud 操作库:-->
+        <!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+        <!--Valine 的核心代码库-->
+        <!-- <script src="/media/scripts/Valine.min.js"></script>
+        <div class="comment"></div> -->
+        <!-- <script>
+            new Valine({
+                // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+                av: AV, 
+                el: '.comment',
+                lang: 'zh-cn',//设置评论语言
+                emoticon_url: 'https://cloud.panjunwen.com/alu',
+                emoticon_list: ["狂汗.png","不说话.png","汗.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","暗地观察.png"],
+                app_id: '5rzahmU17YtrDmapHepPbeJI-gzGzoHsz',
+                app_key: 'IPGfrQPNEd00kdOgl5FmEseB',
+                placeholder: '评论留言'
+            });
+        </script> -->
 
         
+
+        
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: '5rzahmU17YtrDmapHepPbeJI-gzGzoHsz',
+		appKey: 'IPGfrQPNEd00kdOgl5FmEseB',
+		avatar: '',
+		pageSize: 10,
+		recordIp: true,
+		placeholder: 'Just Go Go',
+		visitor: true,
+	});
+</script>
 
         
 
