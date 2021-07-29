@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>搜索 | cometrue的博客</title>
+<title>Go语言学习之路-反射 | cometrue的博客</title>
 
 <link rel="shortcut icon" href="https://come7true.github.io/favicon.ico?v=1627531828767">
 
@@ -35,21 +33,11 @@
 <!--<script src="media/scripts/index.js"></script>-->
 
 
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.0/dist/fuse.basic.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.3/ejs.min.js"></script>
-    <script src="https://come7true.github.io/media/gridea-search/gridea-search.js"></script>
-    <script src="https://come7true.github.io/media/gridea-search/result-template.ejs" type="text/ejs"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
-
 <body>
-    <style>
-        .searched-keyword {
-            background-color: yellow;
-            color: red;
-        }
-    </style>
-    <div class="main gt-bg-theme-color-first">
-        <nav class="navbar navbar-expand-lg">
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -116,16 +104,102 @@
         }
     }
 </script>
-        <div id="gridea-search-result" data-update="1627531828767">
-            <div class="searching" style="font-size: 18px; margin-top: 50px;">
-                <i class="fa fa-sync-alt fa-spin"></i>&nbsp;&nbsp;搜索中......
-                <br><br>
-                <span style="font-size: 65%; color: #aaa">第一次搜索可能需要耗费较长时间构建索引，请耐心等待...</span>
-            </div>
-            <div class="no-result" style="display:none; font-size: 20px; margin-top: 50px;">
-                <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;未搜索到相关文章，请更换关键词
-            </div>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Go语言学习之路-反射
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2021-07-29 ·
+                    </time>
+                    
+                        <a href="https://come7true.github.io/tag/O-4FHvgzY/" class="post-tags">
+                            # Golang
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h4 id="1何为反射">1.何为反射</h4>
+<p>在计算机科学中，反射是指程序在运行过程中，可以访问、检测和修改自身状态或行为的一种能力。比喻来说，反射就是程序在运行时能”观察“并且修改自己的行为。</p>
+<p>通常情况下，使用汇编语言可以直接操作内存，获取对象的类型信息和内存结构。但是在高级语言层面，只能通过反射机制来实现。</p>
+<p>Go语言提供了一种机制，在运行时更新变量和检查他们的值，调用它们的方法，但在编译时不知道这些变量的具体类型，叫做反射机制。</p>
+<h4 id="2反射的使用场景">2.反射的使用场景</h4>
+<p>1）在编写一个形参未知的函数时</p>
+<p>2）根据输入的参数动态地执行函数</p>
+<h4 id="3反射的缺点">3.反射的缺点</h4>
+<p>1）语义性较差，反射代码通常是难以阅读的</p>
+<p>2）Go作为静态编译型语言，在编译期间能提前发现一些错误，但是对于反射代码往往无法提前报错，程序运行时直接panic，可能造成严重的后果</p>
+<p>3）反射对性能的影响较大，比正常代码运行速度慢一到两个数量级</p>
+
+                </div>
+            </article>
         </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://come7true.github.io/post/kafka-questions/" class="post-title gt-a-link">
+                    小记-Kafka消息丢失和重复消费
+                </a>
+            </div>
+        
+
+        
+
+        <!--载入js，在</body>之前插入即可-->
+        <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+        <!--Leancloud 操作库:-->
+        <!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+        <!--Valine 的核心代码库-->
+        <!-- <script src="/media/scripts/Valine.min.js"></script>
+        <div class="comment"></div> -->
+        <!-- <script>
+            new Valine({
+                // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+                av: AV, 
+                el: '.comment',
+                lang: 'zh-cn',//设置评论语言
+                emoticon_url: 'https://cloud.panjunwen.com/alu',
+                emoticon_list: ["狂汗.png","不说话.png","汗.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","暗地观察.png"],
+                app_id: '5rzahmU17YtrDmapHepPbeJI-gzGzoHsz',
+                app_key: 'IPGfrQPNEd00kdOgl5FmEseB',
+                placeholder: '评论留言'
+            });
+        </script> -->
+
+        
+
+        
+            <script src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'></script>
+
+<style>
+	div#vcomments{
+		width:100%;
+		max-width: 1000px;
+		padding: 2.5%
+	}
+</style>
+
+
+	<div id="vcomments"></div>
+
+<script>
+	new Valine({
+		el: '#vcomments',
+		appId: '5rzahmU17YtrDmapHepPbeJI-gzGzoHsz',
+		appKey: 'IPGfrQPNEd00kdOgl5FmEseB',
+		avatar: 'monsterid',
+		pageSize: 10,
+		recordIp: true,
+		placeholder: '来发评论吧~~',
+		visitor: false,
+	});
+</script>
+
+        
+
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first">温故而知新</div>
     <div class="social-container">
@@ -161,6 +235,6 @@
 </script>
 
     </div>
+</div>
 </body>
-
 </html>

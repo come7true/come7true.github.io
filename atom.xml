@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://come7true.github.io</id>
     <title>cometrue的博客</title>
-    <updated>2021-07-28T08:03:46.127Z</updated>
+    <updated>2021-07-29T04:10:41.291Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://come7true.github.io"/>
     <link rel="self" href="https://come7true.github.io/atom.xml"/>
@@ -11,7 +11,26 @@
     <icon>https://come7true.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, cometrue的博客</rights>
     <entry>
-        <title type="html"><![CDATA[Kafka消息丢失和重复消费-小记]]></title>
+        <title type="html"><![CDATA[Go语言学习之路-反射]]></title>
+        <id>https://come7true.github.io/post/go-yu-yan-xue-xi-zhi-lu-fan-she/</id>
+        <link href="https://come7true.github.io/post/go-yu-yan-xue-xi-zhi-lu-fan-she/">
+        </link>
+        <updated>2021-07-29T04:07:39.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="1何为反射">1.何为反射</h4>
+<p>在计算机科学中，反射是指程序在运行过程中，可以访问、检测和修改自身状态或行为的一种能力。比喻来说，反射就是程序在运行时能”观察“并且修改自己的行为。</p>
+<p>通常情况下，使用汇编语言可以直接操作内存，获取对象的类型信息和内存结构。但是在高级语言层面，只能通过反射机制来实现。</p>
+<p>Go语言提供了一种机制，在运行时更新变量和检查他们的值，调用它们的方法，但在编译时不知道这些变量的具体类型，叫做反射机制。</p>
+<h4 id="2反射的使用场景">2.反射的使用场景</h4>
+<p>1）在编写一个形参未知的函数时</p>
+<p>2）根据输入的参数动态地执行函数</p>
+<h4 id="3反射的缺点">3.反射的缺点</h4>
+<p>1）语义性较差，反射代码通常是难以阅读的</p>
+<p>2）Go作为静态编译型语言，在编译期间能提前发现一些错误，但是对于反射代码往往无法提前报错，程序运行时直接panic，可能造成严重的后果</p>
+<p>3）反射对性能的影响较大，比正常代码运行速度慢一到两个数量级</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[小记-Kafka消息丢失和重复消费]]></title>
         <id>https://come7true.github.io/post/kafka-questions/</id>
         <link href="https://come7true.github.io/post/kafka-questions/">
         </link>
